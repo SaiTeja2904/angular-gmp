@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { HeaderComponent } from "./header/header.component";
+import { FooterComponent } from "./footer/footer.component";
+import { BreadCrumbsComponent } from "./bread-crumbs/bread-crumbs.component";
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, NavbarComponent],
+  declarations: [HeaderComponent, FooterComponent, BreadCrumbsComponent],
   imports: [CommonModule],
-  exports: [HeaderComponent, FooterComponent, NavbarComponent]
+  exports: [HeaderComponent, FooterComponent, BreadCrumbsComponent]
 })
 export class CommonComponentsModule {}
