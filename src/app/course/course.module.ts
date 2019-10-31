@@ -6,9 +6,11 @@ import { CommonComponentsModule } from '../common-components/common-components.m
 import { CoursesListComponent } from './courses-list/courses-list.component';
 import { SearchCourseComponent } from './search-course/search-course.component';
 import { CourseItemComponent } from './course-item/course-item.component';
+import { LoadMoreComponent } from './load-more/load-more.component';
+import { AddCourseComponent } from './add-course/add-course.component';
 
 @NgModule({
-  declarations: [CourseComponent, CoursesListComponent, SearchCourseComponent, CourseItemComponent],
+  declarations: [CourseComponent, CoursesListComponent, SearchCourseComponent, CourseItemComponent, LoadMoreComponent, AddCourseComponent],
   imports: [
     CommonModule,
     CommonComponentsModule,

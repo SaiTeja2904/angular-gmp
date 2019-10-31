@@ -1,30 +1,73 @@
 .course {
-  background-color: white;
-  height: 100px;
-  margin: 10px 0 10px 0;
-  border-radius: 5px;
-  display: flex;
+    background-color: white;
+    min-height: 100px;
+    padding: 10px 0 20px 0;
+    margin: 10px 0 10px 0;
+    border-radius: 5px;
+    display: flex;
 
-  .course-details {
-    padding-left: 10px;
-    padding-top: 10px;
-    flex-basis: 90%;
+    .course-details {
+        padding-left: 10px;
+        padding-top: 10px;
+        flex-basis: 95%;
 
-    .course-title {
-      display: block;
-      font-size: 1.2rem;
-      font-weight: 600;
+        .course-description {
+            margin-top: 10px;
+            padding-right: 100px;
+            display: block;
+            font-weight: 400;
+            text-align: justify;
+        }
+
+        .course-title-bar {
+            display: flex;
+            align-items: center;
+            margin-right: 100px;
+
+            .course-title {
+                display: block;
+                font-size: 1.2rem;
+                font-weight: 600;
+                justify-content: left;
+                flex: 2;
+            }
+
+            .course-detailsa {
+                display: inherit;
+                flex: 1;
+                align-items: center;
+                justify-content: flex-end;
+
+                .course-details-duration,
+                .course-details-creation-date {
+                    padding: 0 20px 0 0 ;
+                }
+
+                i {
+                    padding-right: 5px;
+                }
+            }
+        }
     }
 
-    .course-description {
-      margin-top: 10px;
-      display: block;
-      font-weight: 400;
-    }
-  }
+    .course-actions {
+        align-items: center;
+        flex-basis: 5%;
+        display: inherit;
 
-  .course-actions {
-    vertical-align: middle;
-    flex-basis: 10%;
-  }
+        .edit-button,
+        .delete-button {
+            border-radius: 0.3rem;
+            background-color: #30b6dd;
+            padding: 0.3rem;
+            width: 5rem;
+            margin: 0px 0.2rem;
+            border: none;
+            color: white;
+            height: 2rem;
+        }
+        .delete-button {
+            margin-right: 1rem;
+        }
+    }
 }
