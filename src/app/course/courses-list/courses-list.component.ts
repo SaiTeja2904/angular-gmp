@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, OnChanges } from "@angular/core";
 import { Course } from "../_models/course";
 
 @Component({
@@ -6,19 +6,18 @@ import { Course } from "../_models/course";
     templateUrl: "./courses-list.component.html",
     styleUrls: ["./courses-list.component.less"]
 })
-export class CoursesListComponent implements OnInit {
-    courses: Course[];
-    search = "";
-    constructor() {}
+export class CoursesListComponent implements OnInit, OnChanges {
+    @Input() public search;
+    public courses: Course[];
 
-    ngOnInit() {
+    public ngOnInit() {
         this.courses = [
             {
                 id: "ang-01",
                 title: "Intro to Angular",
                 creationDate: new Date(),
                 duration: 126,
-                description: "A Breif introduction to Angular"
+                description: "A Brief introduction to Angular"
             },
             {
                 id: "ang-02",
@@ -45,7 +44,19 @@ export class CoursesListComponent implements OnInit {
         ];
     }
 
-    actionPerformedOnItem(event) {
+    public ngOnChanges() {
+        console.log("Searched for : ", this.search);
+    }
+
+    public actionPerformedOnItem(event) {
         console.log(event);
+    }
+
+    public coursesTrackFunction(index, item) {
+        if (!item) {
+            return null;
+        }
+        console.log(item);
+        return item.id;
     }
 }

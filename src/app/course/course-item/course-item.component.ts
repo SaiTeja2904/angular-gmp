@@ -8,14 +8,14 @@ import { ActionTypes } from "../_models/actionTypes";
     styleUrls: ["./course-item.component.less"]
 })
 export class CourseItemComponent {
-    @Input() course: Course;
-    @Output() actionPerformed = new EventEmitter();
+    @Input() public course: Course;
+    @Output() public actionPerformed = new EventEmitter();
 
-    editClicked() {
+    public onEdit() {
         this.actionPerformed.emit({ actionType: ActionTypes.EDIT, id: this.course.id });
     }
 
-    deleteClicked() {
+    public onDelete() {
         this.actionPerformed.emit({ actionType: ActionTypes.DELETE, id: this.course.id });
     }
 }

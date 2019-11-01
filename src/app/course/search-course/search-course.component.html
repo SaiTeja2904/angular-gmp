@@ -1,4 +1,5 @@
 <div class="search-course-container">
-  <input type="text" class="search-input" placeholder="Text to Search!" />
-  <button class="search-button">Search</button>
+    <em class="fa fa-search test"></em>
+    <input type="text" class="search-input" placeholder="Text to Search!" [(ngModel)]="search" />
+    <button class="search-button" (click)="onCourseSearched()">Search</button>
 </div>
