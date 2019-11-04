@@ -1,0 +1,4 @@
+<ng-container>
+    <app-course-item *ngFor="let course of courses;trackBy: coursesTrackFunction" [course]="course" (actionPerformed)="actionPerformedOnItem($event)"></app-course-item>
+    <app-load-more></app-load-more>
+</ng-container>

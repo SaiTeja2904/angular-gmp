@@ -1,0 +1,18 @@
+<div class="course">
+    <div class="course-details">
+        <div class="course-title-bar">
+            <label class="course-title"> {{ course.title }}</label>
+            <div class="course-detailsa">
+                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                <label class="course-details-duration">{{ course.duration }}</label>
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <label class="course-details-creation-date">{{ course.creationDate | date: "mediumDate" }}</label>
+            </div>
+        </div>
+        <label class="course-description"> {{ course?.description }}</label>
+    </div>
+    <div class="course-actions">
+        <button class="edit-button" (click)="onEdit()"><em class="fa fa-pencil"></em> Edit</button>
+        <button class="delete-button" (click)="onDelete()"><em class="fa fa-trash"></em> Delete</button>
+    </div>
+</div>
