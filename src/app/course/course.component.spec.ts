@@ -1,25 +1,30 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { CourseComponent } from "./course.component";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 
-import { CourseComponent } from './course.component';
+describe("CourseComponent", () => {
+    let component: CourseComponent;
+    let fixture: ComponentFixture<CourseComponent>;
 
-describe('CourseComponent', () => {
-  let component: CourseComponent;
-  let fixture: ComponentFixture<CourseComponent>;
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [CourseComponent],
+            schemas: [NO_ERRORS_SCHEMA]
+        }).compileComponents();
+    }));
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CourseComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CourseComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CourseComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it("should set the search value upon search event", () => {
+        component.courseSearched("ABC");
+        expect(component.searchValue).toBe("ABC");
+    });
 });
