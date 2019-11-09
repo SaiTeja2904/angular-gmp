@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
 import { BreadCrumbsComponent } from "./bread-crumbs.component";
 
 describe("BreadCrumbsComponent", () => {
@@ -24,7 +23,7 @@ describe("BreadCrumbsComponent", () => {
 
     it("should generate complete path of the module", () => {
         component.path = ["A", "B"];
-        component.ngOnChanges();
+        fixture.detectChanges();
         expect(component.completePath).toBe("A/ B");
     });
 });

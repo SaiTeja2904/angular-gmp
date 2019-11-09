@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { SearchCourseComponent } from "./search-course.component";
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from "@angular/core";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 describe("SearchCourseComponent", () => {
@@ -11,8 +11,8 @@ describe("SearchCourseComponent", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [SearchCourseComponent],
-            providers: [FormsModule, ReactiveFormsModule],
-            schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+            imports: [FormsModule, ReactiveFormsModule],
+            schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
     }));
 

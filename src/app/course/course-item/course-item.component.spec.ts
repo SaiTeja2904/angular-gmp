@@ -24,16 +24,16 @@ describe("CourseItemComponent", () => {
     });
 
     it("should emit an event upon edit click", () => {
-        spyOn(component.actionPerformed, "emit");
+        const emitSpy = spyOn(component.actionPerformed, "emit");
         component.course = { id: "1", title: "ABC", creationDate: new Date(), duration: 120, description: "AA" };
         component.onEdit();
-        expect(component.actionPerformed.emit).toHaveBeenCalledWith({ actionType: ActionTypes.EDIT, id: "1" });
+        expect(emitSpy).toHaveBeenCalledWith({ actionType: ActionTypes.EDIT, id: "1" });
     });
 
     it("should emit an event upon delete click", () => {
-        spyOn(component.actionPerformed, "emit");
+        const emitSpy = spyOn(component.actionPerformed, "emit");
         component.course = { id: "1", title: "ABC", creationDate: new Date(), duration: 120, description: "AA" };
         component.onDelete();
-        expect(component.actionPerformed.emit).toHaveBeenCalledWith({ actionType: ActionTypes.DELETE, id: "1" });
+        expect(emitSpy).toHaveBeenCalledWith({ actionType: ActionTypes.DELETE, id: "1" });
     });
 });
