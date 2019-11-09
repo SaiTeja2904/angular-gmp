@@ -9,6 +9,8 @@ import { CourseItemComponent } from "./course-item/course-item.component";
 import { LoadMoreComponent } from "./load-more/load-more.component";
 import { AddCourseComponent } from "./add-course/add-course.component";
 import { FormsModule } from "@angular/forms";
+import { HighlightDirective } from "./course-item/highlight.directive";
+import { DurationPipe } from './duration.pipe';
 
 @NgModule({
     declarations: [
@@ -17,7 +19,9 @@ import { FormsModule } from "@angular/forms";
         SearchCourseComponent,
         CourseItemComponent,
         LoadMoreComponent,
-        AddCourseComponent
+        AddCourseComponent,
+        HighlightDirective,
+        DurationPipe
     ],
     imports: [
         CommonModule,

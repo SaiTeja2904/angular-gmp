@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { CourseItemComponent } from "./course-item.component";
 import { ActionTypes } from "../_models/actionTypes";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
+import { DurationPipe } from "../duration.pipe";
 
 describe("CourseItemComponent", () => {
     let component: CourseItemComponent;
@@ -9,7 +11,8 @@ describe("CourseItemComponent", () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [CourseItemComponent]
+            declarations: [CourseItemComponent, DurationPipe],
+            schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
     }));
 

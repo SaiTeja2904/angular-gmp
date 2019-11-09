@@ -23,4 +23,10 @@ describe("CoursesListComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
+
+    it("should get value of search and reassign coursesToBeDisplayed", () => {
+        component.search = "Intro";
+        fixture.detectChanges();
+        expect(component.coursesToBeDisplayed).toEqual([component.courses[0]]);
+    });
 });
