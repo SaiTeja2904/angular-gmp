@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 import { CoursesListComponent } from "./courses-list.component";
-import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 describe("CoursesListComponent", () => {
     let component: CoursesListComponent;
@@ -22,5 +22,11 @@ describe("CoursesListComponent", () => {
 
     it("should create", () => {
         expect(component).toBeTruthy();
+    });
+
+    it("should get value of search and reassign coursesToBeDisplayed", () => {
+        component.search = "Intro";
+        fixture.detectChanges();
+        expect(component.coursesToBeDisplayed).toEqual([component.courses[0]]);
     });
 });

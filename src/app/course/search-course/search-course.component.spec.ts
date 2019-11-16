@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-
-import { SearchCourseComponent } from "./search-course.component";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+
+import { SearchCourseComponent } from "./search-course.component";
 
 describe("SearchCourseComponent", () => {
     let component: SearchCourseComponent;
