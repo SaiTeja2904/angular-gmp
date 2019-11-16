@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, OnChanges } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
+
 import { Course } from "../_models/course";
 import { searchInArrayOfObjects } from "src/app/shared-utils/array.utils";
 

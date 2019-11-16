@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 import { CourseItemComponent } from "./course-item.component";
 import { ActionTypes } from "../_models/actionTypes";
-import { NO_ERRORS_SCHEMA } from "@angular/core";
 import { DurationPipe } from "../duration.pipe";
 
 describe("CourseItemComponent", () => {
