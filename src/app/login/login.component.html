@@ -1,3 +1,32 @@
-<p>
-  login works!
-</p>
+<div class="login-wrapper">
+    <form class="content" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="title">
+            <span>Login</span>
+        </div>
+
+        <div class="fields">
+            <div class="field-label">
+                <label>E-mail:</label>
+                <label>*requried</label>
+            </div>
+            <input type="text" name="email" formControlName="email" placeholder="Enter e-mail" />
+        </div>
+
+        <div class="fields">
+            <div class="field-label">
+                <label>Password:</label>
+                <label>*requried</label>
+            </div>
+            <input type="password" name="password" formControlName="password" placeholder="Enter password (4-10 characters)" />
+        </div>
+
+        <div class="bottom-row">
+            <div class="forgot-password">
+                <a href="#">Forgot password?</a>
+            </div>
+            <button type="submit" [disabled]="loginForm.invalid" class="submit-button">
+                Login
+            </button>
+        </div>
+    </form>
+</div>
