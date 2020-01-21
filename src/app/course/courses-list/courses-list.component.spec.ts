@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { NO_ERRORS_SCHEMA } from "@angular/core";
 
 import { CoursesListComponent } from "./courses-list.component";
+import { CourseService } from "../course.service";
 
 describe("CoursesListComponent", () => {
     let component: CoursesListComponent;
@@ -10,6 +11,7 @@ describe("CoursesListComponent", () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [CoursesListComponent],
+            providers: [CourseService],
             schemas: [NO_ERRORS_SCHEMA]
         }).compileComponents();
     }));

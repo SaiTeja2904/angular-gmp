@@ -10,7 +10,8 @@ import { LoadMoreComponent } from "./load-more/load-more.component";
 import { AddCourseComponent } from "./add-course/add-course.component";
 import { FormsModule } from "@angular/forms";
 import { HighlightDirective } from "./course-item/highlight.directive";
-import { DurationPipe } from './duration.pipe';
+import { DurationPipe } from "./duration.pipe";
+import { CourseService } from "./course.service";
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { DurationPipe } from './duration.pipe';
             }
         ]),
         FormsModule
-    ]
+    ],
+    providers: [CourseService]
 })
 export class CourseModule {}

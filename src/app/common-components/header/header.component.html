@@ -1,5 +1,15 @@
 <header class="header">
-  <div class="logo-container">
-    <img class="logo" src="../../../assets/images/logo.svg" alt="Logo" />
-  </div>
+    <div class="logo-container">
+        <img class="logo" src="../../../assets/images/logo.svg" alt="Logo" />
+    </div>
+    <div class="header-actions" *ngIf="isAuthenticated">
+        <span class="user-info">
+            <i class="fa fa-user-o" aria-hidden="true"></i>
+            <a (click)="getUserInfo()">User Info</a>
+        </span>
+        <span class="sign-out">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+            <a (click)="logout()">Log off</a>
+        </span>
+    </div>
 </header>

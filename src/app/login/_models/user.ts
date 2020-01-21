@@ -1,5 +1,6 @@
 export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
+    id: number;
+    email: string;
+    password: string;
+    isAuthenticated: boolean;
 }

@@ -1,0 +1,79 @@
+.login-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 3.5rem;
+
+    .content {
+        width: 25rem;
+        height: 20rem;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 0.1rem 1.5rem 0 rgba(18, 21, 35, 0.08);
+        background-color: #ffffff;
+
+        .title {
+            margin-bottom: 1.5rem;
+            & > span {
+                color: #2c2f3c;
+                font-weight: 600;
+                height: 2rem;
+                font-size: 1.5rem;
+            }
+        }
+
+        .fields {
+            .field-label {
+                display: flex;
+                label {
+                    display: flex;
+                    flex: 1;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    margin-bottom: 1rem;
+                    &:last-child {
+                        font-size: 0.8rem;
+                        font-weight: normal;
+                        justify-content: flex-end;
+                    }
+                }
+            }
+            & > input {
+                display: flex;
+                width: 95%;
+                height: 2rem;
+                padding: 0.5rem 0.8rem;
+                border-radius: 0.3rem;
+                border: solid 0.1rem #d9dbe3;
+                background-color: #ffffff;
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        .bottom-row {
+            display: flex;
+            justify-content: center;
+            .forgot-password {
+                display: flex;
+                flex: 1.7;
+                align-self: center;
+                a {
+                    display: flex;
+                    font-size: 1rem;
+                    color: #5691ee;
+                }
+            }
+            .submit-button {
+                background-color: #9bc837;
+                color: white;
+                display: flex;
+                height: 2.2rem;
+                border: none;
+                border-radius: 0.2rem;
+                font-size: 1rem;
+                font-weight: 600;
+                padding: 0.5rem 0.8rem;
+            }
+        }
+    }
+}
