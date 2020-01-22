@@ -1,7 +1,7 @@
-<div class="new-course-container">
-  <form class="content" [formGroup]="newCourseForm" (ngSubmit)="createCourse()">
+<div class="edit-course-container">
+  <form class="content" [formGroup]="courseForm" (ngSubmit)="submitCourse()">
     <div class="title">
-      <span>New Course</span>
+      <span>Edit Course</span>
     </div>
     <div class="fields">
       <div class="field-label">
@@ -43,11 +43,13 @@
       <app-course-authors></app-course-authors>
     </div>
     <div class="bottom-row">
-      <button type="button" (click)="cancelCourseCreation()">Cancel</button>
+      <button type="button" (click)="cancel()">Cancel</button>
       <button
         type="submit"
-        [disabled]="newCourseForm.invalid"
-        [ngClass]="newCourseForm.invalid === false ? 'active' : 'disabled'"
+        [disabled]="courseForm.invalid || !courseForm.dirty"
+        [ngClass]="
+          !courseForm.invalid && courseForm.dirty ? 'active' : 'disabled'
+        "
       >
         Save
       </button>

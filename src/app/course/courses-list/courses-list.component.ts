@@ -4,6 +4,7 @@ import { Course } from "../_models/course";
 import { searchInArrayOfObjects } from "src/app/shared-utils/array.utils";
 import { CourseService } from "../course.service";
 import { ActionTypes } from "../_models/actionTypes";
+import { Router } from "@angular/router";
 
 @Component({
     selector: "app-courses-list",
@@ -11,13 +12,10 @@ import { ActionTypes } from "../_models/actionTypes";
     styleUrls: ["./courses-list.component.less"]
 })
 export class CoursesListComponent implements OnInit {
-    @Input() public set search(search: string) {
-        this.coursesToBeDisplayed = searchInArrayOfObjects(search, this.courses, "title");
-    }
     public courses: Course[];
     public coursesToBeDisplayed: Course[];
 
-    constructor(private courseService: CourseService) {}
+    constructor(private courseService: CourseService, private router: Router) {}
     public ngOnInit() {
         this.loadCourses();
     }
@@ -26,6 +24,8 @@ export class CoursesListComponent implements OnInit {
         const { actionType, id: courseId } = event;
         if (actionType === ActionTypes.DELETE) {
             this.deleteCourse(courseId);
+        } else if (actionType === ActionTypes.EDIT) {
+            this.editCourse(courseId);
         }
     }
 
@@ -43,8 +43,20 @@ export class CoursesListComponent implements OnInit {
         }
     }
 
+    private editCourse(courseId) {
+        this.router.navigate([`/courses/edit-course/${courseId}`]);
+    }
+
     private loadCourses() {
         this.courses = this.courseService.getList();
         this.coursesToBeDisplayed = this.courses;
+    }
+
+    public courseSearched(event) {
+        this.coursesToBeDisplayed = searchInArrayOfObjects(event, this.courses, "title");
+    }
+
+    public addCourse() {
+        this.router.navigate(["courses/add-course"]);
     }
 }

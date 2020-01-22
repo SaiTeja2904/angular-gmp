@@ -7,11 +7,10 @@ import { CoursesListComponent } from "./courses-list/courses-list.component";
 import { SearchCourseComponent } from "./search-course/search-course.component";
 import { CourseItemComponent } from "./course-item/course-item.component";
 import { LoadMoreComponent } from "./load-more/load-more.component";
-import { AddCourseComponent } from "./add-course/add-course.component";
 import { FormsModule } from "@angular/forms";
 import { HighlightDirective } from "./course-item/highlight.directive";
-import { DurationPipe } from "./duration.pipe";
 import { CourseService } from "./course.service";
+import { SharedPipesModule } from "../core/pipes/shared-pipes/shared-pipes.module";
 
 @NgModule({
     declarations: [
@@ -20,9 +19,7 @@ import { CourseService } from "./course.service";
         SearchCourseComponent,
         CourseItemComponent,
         LoadMoreComponent,
-        AddCourseComponent,
-        HighlightDirective,
-        DurationPipe
+        HighlightDirective
     ],
     imports: [
         CommonModule,
@@ -30,10 +27,25 @@ import { CourseService } from "./course.service";
         RouterModule.forChild([
             {
                 path: "",
-                component: CourseComponent
+                component: CourseComponent,
+                children: [
+                    {
+                        path: "",
+                        component: CoursesListComponent
+                    },
+                    {
+                        path: "add-course",
+                        loadChildren: "./add-course/add-course.module#AddCourseModule"
+                    },
+                    {
+                        path: "edit-course/:id",
+                        loadChildren: "./edit-course/edit-course.module#EditCourseModule"
+                    }
+                ]
             }
         ]),
-        FormsModule
+        FormsModule,
+        SharedPipesModule
     ],
     providers: [CourseService]
 })

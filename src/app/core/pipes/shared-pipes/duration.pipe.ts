@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { timeConvert } from "../shared-utils/date-time.utils";
+import { timeConvert } from "../../../shared-utils/date-time.utils";
 
 @Pipe({
     name: "duration"
