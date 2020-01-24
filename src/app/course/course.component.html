@@ -1,7 +1,5 @@
 <app-bread-crumbs [path]="path"></app-bread-crumbs>
 
 <div class="courses-dashboard">
-    <app-search-course (courseSearched)="courseSearched($event)"></app-search-course>
-    <app-add-course></app-add-course>
-    <app-courses-list [search]="searchValue"></app-courses-list>
+    <router-outlet></router-outlet>
 </div>

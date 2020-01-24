@@ -1,4 +1,13 @@
+<app-search-course (courseSearched)="courseSearched($event)"></app-search-course>
+<div class="add-course-container">
+    <button class="add-course-btn" (click)="addCourse()"><em class="fa fa-plus"></em> Add Course</button>
+</div>
+
 <ng-container>
-    <app-course-item *ngFor="let course of coursesToBeDisplayed;trackBy: coursesTrackFunction" [course]="course" (actionPerformed)="actionPerformedOnItem($event)"></app-course-item>
+    <app-course-item
+        *ngFor="let course of coursesToBeDisplayed; trackBy: coursesTrackFunction"
+        [course]="course"
+        (actionPerformed)="actionPerformedOnItem($event)"
+    ></app-course-item>
     <app-load-more></app-load-more>
 </ng-container>

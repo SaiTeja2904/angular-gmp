@@ -7,9 +7,4 @@ import { Component } from "@angular/core";
 })
 export class CourseComponent {
     public path = ["Courses"];
-    public searchValue = "";
-
-    public courseSearched(event) {
-        this.searchValue = event;
-    }
 }
