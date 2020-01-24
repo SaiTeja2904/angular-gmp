@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 
@@ -8,7 +8,8 @@ import { User } from "./_models/user";
 @Component({
     selector: "app-login",
     templateUrl: "./login.component.html",
-    styleUrls: ["./login.component.less"]
+    styleUrls: ["./login.component.less"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;

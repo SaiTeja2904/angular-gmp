@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Course } from "../_models/course";
@@ -7,7 +7,8 @@ import { CourseService } from "../course.service";
 @Component({
     selector: "app-add-course",
     templateUrl: "./add-course.component.html",
-    styleUrls: ["./add-course.component.less"]
+    styleUrls: ["./add-course.component.less"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddCourseComponent implements OnInit {
     newCourseForm: FormGroup;

@@ -1,22 +1,23 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from "@angular/core";
 
 import { Course } from "../_models/course";
-import { ActionTypes } from "../_models/actionTypes";
 
 @Component({
     selector: "app-course-item",
     templateUrl: "./course-item.component.html",
-    styleUrls: ["./course-item.component.less"]
+    styleUrls: ["./course-item.component.less"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseItemComponent {
     @Input() public course: Course;
-    @Output() public actionPerformed = new EventEmitter();
+    @Output() public edit = new EventEmitter();
+    @Output() public delete = new EventEmitter();
 
     public onEdit() {
-        this.actionPerformed.emit({ actionType: ActionTypes.EDIT, id: this.course.id });
+        this.edit.emit({ id: this.course.id });
     }
 
     public onDelete() {
-        this.actionPerformed.emit({ actionType: ActionTypes.DELETE, id: this.course.id });
+        this.delete.emit({ id: this.course.id });
     }
 }

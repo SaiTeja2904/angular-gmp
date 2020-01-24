@@ -3,8 +3,8 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AddCourseComponent } from "./add-course.component";
 import { RouterModule } from "@angular/router";
-import { SharedPipesModule } from "src/app/core/pipes/shared-pipes/shared-pipes.module";
 import { CoursesSharedModule } from '../courses-shared/courses-shared.module';
+import { SharedPipesModule } from '../../core/pipes/shared-pipes/shared-pipes.module';
 
 @NgModule({
     imports: [

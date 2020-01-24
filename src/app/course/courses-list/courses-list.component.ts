@@ -1,9 +1,8 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 import { Course } from "../_models/course";
 import { searchInArrayOfObjects } from "src/app/shared-utils/array.utils";
 import { CourseService } from "../course.service";
-import { ActionTypes } from "../_models/actionTypes";
 import { Router } from "@angular/router";
 
 @Component({
@@ -16,17 +15,19 @@ export class CoursesListComponent implements OnInit {
     public coursesToBeDisplayed: Course[];
 
     constructor(private courseService: CourseService, private router: Router) {}
+
     public ngOnInit() {
         this.loadCourses();
     }
 
-    public actionPerformedOnItem(event) {
-        const { actionType, id: courseId } = event;
-        if (actionType === ActionTypes.DELETE) {
-            this.deleteCourse(courseId);
-        } else if (actionType === ActionTypes.EDIT) {
-            this.editCourse(courseId);
-        }
+    onEdit(event) {
+        const { id: courseId } = event;
+        this.editCourse(courseId);
+    }
+
+    onDelete(event) {
+        const { id: courseId } = event;
+        this.deleteCourse(courseId);
     }
 
     public coursesTrackFunction(index, item) {
