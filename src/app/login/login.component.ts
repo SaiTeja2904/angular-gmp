@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
     constructor(private authService: AuthService, private router: Router) {}
 
     ngOnInit() {
+        this.authService.logout();
         this.loginForm = new FormGroup({
             name: new FormControl("", [Validators.required]),
             password: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(10)])

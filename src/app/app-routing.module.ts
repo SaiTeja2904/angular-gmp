@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from "./page-not-found/page-not-found.component";
+import { AuthguardService } from "./guards/authguard.service";
 
 const routes: Routes = [
     {
@@ -9,7 +10,8 @@ const routes: Routes = [
     },
     {
         path: "courses",
-        loadChildren: "./course/course.module#CourseModule"
+        loadChildren: "./course/course.module#CourseModule",
+        canActivate: [AuthguardService]
     },
     {
         path: "",

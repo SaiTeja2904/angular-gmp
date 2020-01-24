@@ -4,6 +4,7 @@ import { Course } from "../_models/course";
 import { searchInArrayOfObjects } from "src/app/shared-utils/array.utils";
 import { CourseService } from "../course.service";
 import { Router } from "@angular/router";
+import { AppService } from "src/app/app.service";
 
 @Component({
     selector: "app-courses-list",
@@ -14,10 +15,11 @@ export class CoursesListComponent implements OnInit {
     public courses: Course[];
     public coursesToBeDisplayed: Course[];
 
-    constructor(private courseService: CourseService, private router: Router) {}
+    constructor(private courseService: CourseService, private router: Router, private appService: AppService) {}
 
     public ngOnInit() {
         this.loadCourses();
+        this.appService.breadCrumbs$.next(["Courses"]);
     }
 
     onEdit(event) {

@@ -35,4 +35,9 @@ export class AuthService {
     isAuthenticated() {
         return this.isAuthenticated$.value;
     }
+
+    isUserAuthenticated() {
+        const userInfo = this.getUserInfo();
+        return userInfo ? userInfo.isAuthenticated : false;
+    }
 }
