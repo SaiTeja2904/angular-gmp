@@ -10,15 +10,15 @@ import { User } from "src/app/login/_models/user";
 })
 export class HeaderComponent implements OnInit {
     isAuthenticated = false;
+    userName: string;
     constructor(private authService: AuthService, private router: Router) {}
 
     ngOnInit() {
         this.authService.isAuthenticated$.subscribe(isAuthenticated => (this.isAuthenticated = isAuthenticated));
-    }
+        this.authService.user$.subscribe(user => {
+            this.userName = user.name;
+        });
 
-    getUserInfo() {
-        const user: User = this.authService.getUserInfo();
-        console.log("UserInfo", user);
     }
 
     logout() {

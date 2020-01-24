@@ -44,7 +44,7 @@ export class CoursesListComponent implements OnInit {
     }
 
     private editCourse(courseId) {
-        this.router.navigate([`/courses/edit-course/${courseId}`]);
+        this.router.navigate([`/courses/${courseId}`]);
     }
 
     private loadCourses() {
@@ -57,6 +57,6 @@ export class CoursesListComponent implements OnInit {
     }
 
     public addCourse() {
-        this.router.navigate(["courses/add-course"]);
+        this.router.navigate(["courses/new"]);
     }
 }
