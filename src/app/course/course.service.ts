@@ -11,7 +11,7 @@ export class CourseService {
     constructor(private httpClient: HttpClient) {}
 
     public createCourse(course) {
-        // this.courseList.set(newCourseId, { id: newCourseId, ...course });
+        return this.httpClient.post(APP_URLS.GET_COURSES, course);
     }
 
     public getItemById(courseId: number) {
@@ -19,7 +19,7 @@ export class CourseService {
     }
 
     public updateItem(id, updatedCourse) {
-        // this.courseList.set(id, updatedCourse);
+        return this.httpClient.patch(`${APP_URLS.GET_COURSES}/${id}`, updatedCourse);
     }
 
     public removeItem(courseId: number) {

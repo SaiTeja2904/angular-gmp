@@ -55,4 +55,8 @@ export class AuthService {
             this.user$.next(userDetails);
         });
     }
+
+    getAuthToken() {
+        return localStorage.getItem("token");
+    }
 }

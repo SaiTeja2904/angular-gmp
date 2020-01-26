@@ -48,7 +48,7 @@ export class EditCourseComponent implements OnInit {
         this.courseService.getItemById(this.courseId).subscribe((course: Course) => {
             if (course) {
                 const { name, description, length, date, authors } = course;
-                let authorsNames = authors.map(({ name, lastName }) => `${name} ${lastName}`).join(", ");
+                let authorsNames = authors.map(({ name }) => `${name}`).join(", ");
                 this.appService.breadCrumbs$.next(["Courses", "Edit", name]);
                 this.courseForm.patchValue({
                     name,
@@ -67,10 +67,15 @@ export class EditCourseComponent implements OnInit {
             ...formValue,
             id: this.courseId,
             date: new Date(Date.parse(formValue.date)),
-            authors: [formValue.authors]
+            authors: this.transformAuthors(formValue.authors)
         };
-        this.courseService.updateItem(this.courseId, newCourse);
-        this.router.navigate(["/courses"]);
+        this.courseService.updateItem(this.courseId, newCourse).subscribe(_ => {
+            this.router.navigate(["/courses"]);
+        });
+    }
+
+    private transformAuthors(authors) {
+        return authors.split(",").map(author => ({ id: Math.ceil(Math.random() * 10000), name: author }));
     }
 
     cancel() {

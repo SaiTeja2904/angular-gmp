@@ -27,7 +27,7 @@ export class AddCourseComponent implements OnInit {
         this.description = new FormControl("", Validators.required);
         this.length = new FormControl("", Validators.required);
         this.date = new FormControl("", Validators.required);
-        this.authors = new FormControl([], Validators.required);
+        this.authors = new FormControl("", Validators.required);
         this.newCourseForm = new FormGroup({
             name: this.name,
             description: this.description,
@@ -42,10 +42,15 @@ export class AddCourseComponent implements OnInit {
         const newCourse: Course = {
             ...formValue,
             date: new Date(),
-            authors: [formValue.authors]
+            authors: this.transformAuthors(formValue.authors)
         };
-        this.courseService.createCourse(newCourse);
-        this.router.navigate(["/courses"]);
+        this.courseService.createCourse(newCourse).subscribe(_ => {
+            this.router.navigate(["/courses"]);
+        });
+    }
+
+    private transformAuthors(authors) {
+        return authors.split(",").map(author => ({ id: Math.ceil(Math.random() * 10000), name: author }));
     }
 
     cancelCourseCreation() {
