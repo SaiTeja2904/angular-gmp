@@ -8,11 +8,16 @@ import { PageNotFoundComponent } from "./page-not-found/page-not-found.component
 import { AppService } from "./app.service";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpHeaderInterceptor } from "./core/interceptors/http-header.interceptor";
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { LoaderComponent } from './common-components/loader/loader.component';
 
 @NgModule({
     declarations: [AppComponent, PageNotFoundComponent],
     imports: [BrowserModule, AppRoutingModule, CommonComponentsModule, HttpClientModule],
-    providers: [{ provide: HTTP_INTERCEPTORS, useClass: HttpHeaderInterceptor, multi: true }],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: HttpHeaderInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

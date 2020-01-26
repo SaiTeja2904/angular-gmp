@@ -1,4 +1,7 @@
 import { Component, Output, EventEmitter, ChangeDetectionStrategy } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { filter, debounce } from 'rxjs/operators';
+import { timer } from 'rxjs';
 
 @Component({
     selector: "app-search-course",
@@ -7,10 +10,16 @@ import { Component, Output, EventEmitter, ChangeDetectionStrategy } from "@angul
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchCourseComponent {
-    public search: string;
+    searchControl: FormControl;
     @Output() public courseSearched = new EventEmitter<string>();
 
-    public onCourseSearched() {
-        this.courseSearched.emit(this.search);
+    ngOnInit() {
+        this.searchControl = new FormControl("");
+        this.searchControl.valueChanges
+            .pipe(
+                filter((searchText: string) => searchText.length === 0 || searchText.length > 2),
+                debounce(() => timer(500))
+            )
+            .subscribe((searchInput: string) => this.courseSearched.emit(searchInput.trim()));
     }
 }
