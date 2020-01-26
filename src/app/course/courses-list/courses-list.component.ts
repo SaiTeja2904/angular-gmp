@@ -15,12 +15,7 @@ import { Observable } from "rxjs";
 export class CoursesListComponent implements OnInit {
     public courses$: Observable<Course[]>;
 
-    constructor(
-        private courseService: CourseService,
-        private router: Router,
-        private appService: AppService,
-        private cdr: ChangeDetectorRef
-    ) {}
+    constructor(private courseService: CourseService, private router: Router, private appService: AppService) {}
 
     public ngOnInit() {
         this.courses$ = this.courseService.getIntialLoadCourses();
@@ -51,7 +46,7 @@ export class CoursesListComponent implements OnInit {
     private deleteCourse(courseId) {
         if (confirm("Are you sure you want to delete?")) {
             this.courseService.removeItem(courseId).subscribe(_ => {
-                this.courses$ = this.courseService.getIntialLoadCourses();
+                this.courses$ = this.courseService.loadMoreCourses();
             });
         }
     }
