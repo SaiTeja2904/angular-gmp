@@ -3,7 +3,9 @@ import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 
 import { AuthService } from "../core/services/auth.service";
-import { User } from "./_models/user";
+import { User, Login_Model } from "./_models/user";
+import { Store } from "@ngrx/store";
+import { LoginUser } from '../store/actions/users.actions';
 
 @Component({
     selector: "app-login",
@@ -14,7 +16,7 @@ import { User } from "./_models/user";
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
 
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private store: Store<any>) {}
 
     ngOnInit() {
         this.authService.logout();
@@ -25,12 +27,7 @@ export class LoginComponent implements OnInit {
     }
 
     onSubmit() {
-        const userInfo: User = { ...this.loginForm.value };
-        this.authService.login(userInfo).subscribe(({ status }: any) => {
-            if (status == 200) {
-                this.authService.fetchUserDetails();
-                this.router.navigateByUrl("/courses");
-            }
-        });
+        const loginDetails: Login_Model = { ...this.loginForm.value };
+        this.store.dispatch(new LoginUser(loginDetails));
     }
 }

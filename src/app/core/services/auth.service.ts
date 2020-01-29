@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
-import { User } from "src/app/login/_models/user";
+import { BehaviorSubject, Observable } from "rxjs";
+import { User, Login_Model } from "src/app/login/_models/user";
 import { HttpClient } from "@angular/common/http";
 import { APP_URLS } from "src/app/constants/URL_CONSTANTS";
 
-import { map, tap } from "rxjs/operators";
+import { map, tap, switchMap } from "rxjs/operators";
 
 @Injectable({
     providedIn: "root"
@@ -18,19 +18,10 @@ export class AuthService {
         this.user$.next(this.getUserInfo());
     }
 
-    login(user: User) {
-        return this.httpService.post(APP_URLS.API_LOGIN, user, { observe: "response" }).pipe(
-            tap(({ status, body }: any) => {
-                if (status === 200) {
-                    localStorage.setItem("token", body.token);
-                    localStorage.setItem("isAuthenticated", "true");
-                    this.isAuthenticated$.next(this.isUserAuthenticated());
-                }
-            }),
-            map(({ status }) => ({
-                status
-            }))
-        );
+    login({ login, password }: Login_Model): Observable<User> {
+        return this.httpService
+            .post(APP_URLS.API_LOGIN, { login, password })
+            .pipe(switchMap(token => this.httpService.post<User>(APP_URLS.USER_DETAILS, token)));
     }
 
     logout() {

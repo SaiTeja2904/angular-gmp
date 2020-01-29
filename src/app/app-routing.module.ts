@@ -11,7 +11,7 @@ const routes: Routes = [
     {
         path: "courses",
         loadChildren: "./course/course.module#CourseModule",
-        canActivate: [AuthguardService]
+        // canActivate: [AuthguardService]
     },
     {
         path: "",
