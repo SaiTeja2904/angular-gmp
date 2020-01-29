@@ -12,7 +12,7 @@ const COLORS = {
 export class HighlightDirective {
     @HostBinding("style.borderColor") borderColor: string;
     @Input() public set course(course: Course) {
-        const { creationDate } = course;
+        const { date: creationDate } = course;
         const currentDate = new Date();
         if (creationDate > currentDate) {
             this.borderColor = COLORS.BLUE_COLOR;

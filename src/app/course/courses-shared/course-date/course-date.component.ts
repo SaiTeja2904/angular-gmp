@@ -13,6 +13,6 @@ export class CourseDateComponent implements OnInit {
     constructor(private formGroupDirective: FormGroupDirective) {}
 
     ngOnInit() {
-        this.date = this.formGroupDirective.control.get("creationDate") as FormControl;
+        this.date = this.formGroupDirective.control.get("date") as FormControl;
     }
 }
