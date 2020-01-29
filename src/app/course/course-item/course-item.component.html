@@ -1,12 +1,12 @@
 <div class="course" appHighlight [course]="course">
     <div class="course-details">
         <div class="course-title-bar">
-            <label class="course-title"> {{ course?.title | uppercase }}</label>
+            <label class="course-title"> {{ course?.name | uppercase }}</label>
             <div class="course-detailsa">
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
-                <label class="course-details-duration">{{ course?.duration | duration }}</label>
+                <label class="course-details-duration">{{ course?.length | duration }}</label>
                 <i class="fa fa-calendar" aria-hidden="true"></i>
-                <label class="course-details-creation-date">{{ course?.creationDate | date: "mediumDate" }}</label>
+                <label class="course-details-creation-date">{{ course?.date | date: "mediumDate" }}</label>
             </div>
         </div>
         <label class="course-description"> {{ course?.description }}</label>

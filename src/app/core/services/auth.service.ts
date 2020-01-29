@@ -1,6 +1,10 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { User } from "src/app/login/_models/user";
+import { HttpClient } from "@angular/common/http";
+import { APP_URLS } from "src/app/constants/URL_CONSTANTS";
+
+import { map, tap } from "rxjs/operators";
 
 @Injectable({
     providedIn: "root"
@@ -9,35 +13,50 @@ export class AuthService {
     isAuthenticated$ = new BehaviorSubject<boolean>(false);
     user$ = new BehaviorSubject<User>(null);
 
-    constructor() {
-        const userInfo = this.getUserInfo();
-        const isAuthenticated = userInfo ? userInfo.isAuthenticated : false;
-        this.isAuthenticated$.next(isAuthenticated);
-        this.user$.next(userInfo);
-    }
-
-    login(user: User) {
-        localStorage.setItem("userInfo", JSON.stringify(user));
-        this.isAuthenticated$.next(true);
+    constructor(private httpService: HttpClient) {
+        this.isAuthenticated$.next(this.isUserAuthenticated());
         this.user$.next(this.getUserInfo());
     }
 
+    login(user: User) {
+        return this.httpService.post(APP_URLS.API_LOGIN, user, { observe: "response" }).pipe(
+            tap(({ status, body }: any) => {
+                if (status === 200) {
+                    localStorage.setItem("token", body.token);
+                    localStorage.setItem("isAuthenticated", "true");
+                    this.isAuthenticated$.next(this.isUserAuthenticated());
+                }
+            }),
+            map(({ status }) => ({
+                status
+            }))
+        );
+    }
+
     logout() {
-        localStorage.removeItem("userInfo");
+        localStorage.clear();
         this.isAuthenticated$.next(false);
     }
 
-    getUserInfo(): User {
+    getUserInfo() {
         const userInfo = localStorage.getItem("userInfo");
         return userInfo ? JSON.parse(userInfo) : null;
     }
 
-    isAuthenticated() {
-        return this.isAuthenticated$.value;
+    isUserAuthenticated() {
+        const _isAuthenticated = localStorage.getItem("isAuthenticated");
+        return _isAuthenticated ? JSON.parse(_isAuthenticated) : false;
     }
 
-    isUserAuthenticated() {
-        const userInfo = this.getUserInfo();
-        return userInfo ? userInfo.isAuthenticated : false;
+    fetchUserDetails() {
+        const token = localStorage.getItem("token");
+        this.httpService.post(APP_URLS.USER_DETAILS, { token }).subscribe((userDetails: User) => {
+            localStorage.setItem("userInfo", JSON.stringify(userDetails));
+            this.user$.next(userDetails);
+        });
+    }
+
+    getAuthToken() {
+        return localStorage.getItem("token");
     }
 }

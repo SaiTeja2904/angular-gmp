@@ -13,9 +13,9 @@ import { AppService } from "src/app/app.service";
 })
 export class AddCourseComponent implements OnInit {
     newCourseForm: FormGroup;
-    title: FormControl;
+    name: FormControl;
     description: FormControl;
-    duration: FormControl;
+    length: FormControl;
     date: FormControl;
     authors: FormControl;
 
@@ -23,16 +23,16 @@ export class AddCourseComponent implements OnInit {
 
     ngOnInit() {
         this.appService.breadCrumbs$.next(["Courses", "Add"]);
-        this.title = new FormControl("", Validators.required);
+        this.name = new FormControl("", Validators.required);
         this.description = new FormControl("", Validators.required);
-        this.duration = new FormControl("", Validators.required);
+        this.length = new FormControl("", Validators.required);
         this.date = new FormControl("", Validators.required);
-        this.authors = new FormControl([], Validators.required);
+        this.authors = new FormControl("", Validators.required);
         this.newCourseForm = new FormGroup({
-            title: this.title,
+            name: this.name,
             description: this.description,
-            duration: this.duration,
-            creationDate: this.date,
+            length: this.length,
+            date: this.date,
             authors: this.authors
         });
     }
@@ -41,11 +41,16 @@ export class AddCourseComponent implements OnInit {
         const formValue = this.newCourseForm.value;
         const newCourse: Course = {
             ...formValue,
-            creationDate: new Date(formValue.creationDate),
-            authors: [formValue.authors]
+            date: new Date(),
+            authors: this.transformAuthors(formValue.authors)
         };
-        this.courseService.createCourse(newCourse);
-        this.router.navigate(["/courses"]);
+        this.courseService.createCourse(newCourse).subscribe(_ => {
+            this.router.navigate(["/courses"]);
+        });
+    }
+
+    private transformAuthors(authors) {
+        return authors.split(",").map(author => ({ id: Math.ceil(Math.random() * 10000), name: author }));
     }
 
     cancelCourseCreation() {

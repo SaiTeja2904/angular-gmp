@@ -1,10 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 
 import { Course } from "../_models/course";
 import { searchInArrayOfObjects } from "src/app/shared-utils/array.utils";
 import { CourseService } from "../course.service";
 import { Router } from "@angular/router";
 import { AppService } from "src/app/app.service";
+import { Observable } from "rxjs";
 
 @Component({
     selector: "app-courses-list",
@@ -12,13 +13,12 @@ import { AppService } from "src/app/app.service";
     styleUrls: ["./courses-list.component.less"]
 })
 export class CoursesListComponent implements OnInit {
-    public courses: Course[];
-    public coursesToBeDisplayed: Course[];
+    public courses$: Observable<Course[]>;
 
     constructor(private courseService: CourseService, private router: Router, private appService: AppService) {}
 
     public ngOnInit() {
-        this.loadCourses();
+        this.courses$ = this.courseService.getIntialLoadCourses();
         this.appService.breadCrumbs$.next(["Courses"]);
     }
 
@@ -32,6 +32,10 @@ export class CoursesListComponent implements OnInit {
         this.deleteCourse(courseId);
     }
 
+    onLoadMore() {
+        this.courses$ = this.courseService.loadMoreCourses();
+    }
+
     public coursesTrackFunction(index, item) {
         if (!item) {
             return null;
@@ -41,8 +45,9 @@ export class CoursesListComponent implements OnInit {
 
     private deleteCourse(courseId) {
         if (confirm("Are you sure you want to delete?")) {
-            this.courseService.removeItem(courseId);
-            this.loadCourses();
+            this.courseService.removeItem(courseId).subscribe(_ => {
+                this.courses$ = this.courseService.loadMoreCourses();
+            });
         }
     }
 
@@ -50,16 +55,11 @@ export class CoursesListComponent implements OnInit {
         this.router.navigate([`/courses/${courseId}`]);
     }
 
-    private loadCourses() {
-        this.courses = this.courseService.getList();
-        this.coursesToBeDisplayed = this.courses;
+    public addCourse() {
+        this.router.navigate(["courses/new"]);
     }
 
     public courseSearched(event) {
-        this.coursesToBeDisplayed = searchInArrayOfObjects(event, this.courses, "title");
-    }
-
-    public addCourse() {
-        this.router.navigate(["courses/new"]);
+        this.courses$ = this.courseService.searchCourse(event);
     }
 }

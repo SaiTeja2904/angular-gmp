@@ -14,9 +14,9 @@ import { AppService } from "src/app/app.service";
 })
 export class EditCourseComponent implements OnInit {
     courseForm: FormGroup;
-    title: FormControl;
+    name: FormControl;
     description: FormControl;
-    duration: FormControl;
+    length: FormControl;
     date: FormControl;
     authors: FormControl;
     courseId: number;
@@ -33,23 +33,32 @@ export class EditCourseComponent implements OnInit {
         this.route.params.subscribe(({ id }) => {
             this.courseId = id;
         });
-        const course: Course = this.courseService.getItemById(this.courseId);
-        if (course) {
-            const { title, description, duration, creationDate, authors } = course;
-            this.appService.breadCrumbs$.next(["Courses", "Edit", title]);
-            this.title = new FormControl(title, Validators.required);
-            this.description = new FormControl(description, Validators.required);
-            this.duration = new FormControl(duration, Validators.required);
-            this.date = new FormControl(this.datePipe.transform(creationDate, "yyyy-MM-dd"), Validators.required);
-            this.authors = new FormControl(authors, Validators.required);
-            this.courseForm = new FormGroup({
-                title: this.title,
-                description: this.description,
-                duration: this.duration,
-                creationDate: this.date,
-                authors: this.authors
-            });
-        }
+        this.name = new FormControl("", Validators.required);
+        this.description = new FormControl("", Validators.required);
+        this.length = new FormControl(length, Validators.required);
+        this.date = new FormControl(this.datePipe.transform("", "yyyy-MM-dd"), Validators.required);
+        this.authors = new FormControl("", Validators.required);
+        this.courseForm = new FormGroup({
+            name: this.name,
+            description: this.description,
+            length: this.length,
+            date: this.date,
+            authors: this.authors
+        });
+        this.courseService.getItemById(this.courseId).subscribe((course: Course) => {
+            if (course) {
+                const { name, description, length, date, authors } = course;
+                let authorsNames = authors.map(({ name }) => `${name}`).join(", ");
+                this.appService.breadCrumbs$.next(["Courses", "Edit", name]);
+                this.courseForm.patchValue({
+                    name,
+                    description,
+                    length,
+                    date: this.datePipe.transform(date, "yyyy-MM-dd"),
+                    authors: authorsNames
+                });
+            }
+        });
     }
 
     submitCourse() {
@@ -57,11 +66,16 @@ export class EditCourseComponent implements OnInit {
         const newCourse: Course = {
             ...formValue,
             id: this.courseId,
-            creationDate: new Date(Date.parse(formValue.creationDate)),
-            authors: [formValue.authors]
+            date: new Date(Date.parse(formValue.date)),
+            authors: this.transformAuthors(formValue.authors)
         };
-        this.courseService.updateItem(this.courseId, newCourse);
-        this.router.navigate(["/courses"]);
+        this.courseService.updateItem(this.courseId, newCourse).subscribe(_ => {
+            this.router.navigate(["/courses"]);
+        });
+    }
+
+    private transformAuthors(authors) {
+        return authors.split(",").map(author => ({ id: Math.ceil(Math.random() * 10000), name: author }));
     }
 
     cancel() {
