@@ -1,7 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { AuthService } from "src/app/core/services/auth.service";
 import { Router } from "@angular/router";
-import { User } from "src/app/login/_models/user";
 
 @Component({
     selector: "app-header",
@@ -10,15 +9,16 @@ import { User } from "src/app/login/_models/user";
 })
 export class HeaderComponent implements OnInit {
     isAuthenticated = false;
+    userName: string;
     constructor(private authService: AuthService, private router: Router) {}
 
     ngOnInit() {
-        this.authService.isAuthenticated$.subscribe(isAuthenticated => (this.isAuthenticated = isAuthenticated));
-    }
-
-    getUserInfo() {
-        const user: User = this.authService.getUserInfo();
-        console.log("UserInfo", user);
+        this.authService.isAuthenticated$.subscribe(isAuthenticated => {
+            this.isAuthenticated = isAuthenticated;
+        });
+        this.authService.user$.subscribe(user => {
+            this.userName = user.name;
+        });
     }
 
     logout() {

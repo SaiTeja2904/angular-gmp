@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 
 import { Course } from "../_models/course";
 import { searchInArrayOfObjects } from "src/app/shared-utils/array.utils";
 import { CourseService } from "../course.service";
-import { ActionTypes } from "../_models/actionTypes";
 import { Router } from "@angular/router";
+import { AppService } from "src/app/app.service";
 
 @Component({
     selector: "app-courses-list",
@@ -15,18 +15,21 @@ export class CoursesListComponent implements OnInit {
     public courses: Course[];
     public coursesToBeDisplayed: Course[];
 
-    constructor(private courseService: CourseService, private router: Router) {}
+    constructor(private courseService: CourseService, private router: Router, private appService: AppService) {}
+
     public ngOnInit() {
         this.loadCourses();
+        this.appService.breadCrumbs$.next(["Courses"]);
     }
 
-    public actionPerformedOnItem(event) {
-        const { actionType, id: courseId } = event;
-        if (actionType === ActionTypes.DELETE) {
-            this.deleteCourse(courseId);
-        } else if (actionType === ActionTypes.EDIT) {
-            this.editCourse(courseId);
-        }
+    onEdit(event) {
+        const { id: courseId } = event;
+        this.editCourse(courseId);
+    }
+
+    onDelete(event) {
+        const { id: courseId } = event;
+        this.deleteCourse(courseId);
     }
 
     public coursesTrackFunction(index, item) {
@@ -44,7 +47,7 @@ export class CoursesListComponent implements OnInit {
     }
 
     private editCourse(courseId) {
-        this.router.navigate([`/courses/edit-course/${courseId}`]);
+        this.router.navigate([`/courses/${courseId}`]);
     }
 
     private loadCourses() {
@@ -57,6 +60,6 @@ export class CoursesListComponent implements OnInit {
     }
 
     public addCourse() {
-        this.router.navigate(["courses/add-course"]);
+        this.router.navigate(["courses/new"]);
     }
 }

@@ -4,7 +4,7 @@ import { AddCourseComponent } from './add-course.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CoursesService } from '../shared/services/courses/courses.service';
+import { CourseService } from '../course.service';
 
 describe('AddCourseComponent', () => {
   let component: AddCourseComponent;
@@ -14,7 +14,7 @@ describe('AddCourseComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, RouterTestingModule],
       declarations: [AddCourseComponent],
-      providers: [CoursesService],
+      providers: [CourseService],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

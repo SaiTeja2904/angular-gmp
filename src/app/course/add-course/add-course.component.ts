@@ -1,13 +1,15 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Course } from "../_models/course";
 import { CourseService } from "../course.service";
+import { AppService } from "src/app/app.service";
 
 @Component({
     selector: "app-add-course",
     templateUrl: "./add-course.component.html",
-    styleUrls: ["./add-course.component.less"]
+    styleUrls: ["./add-course.component.less"],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddCourseComponent implements OnInit {
     newCourseForm: FormGroup;
@@ -17,9 +19,10 @@ export class AddCourseComponent implements OnInit {
     date: FormControl;
     authors: FormControl;
 
-    constructor(private router: Router, private courseService: CourseService) {}
+    constructor(private router: Router, private courseService: CourseService, private appService: AppService) {}
 
     ngOnInit() {
+        this.appService.breadCrumbs$.next(["Courses", "Add"]);
         this.title = new FormControl("", Validators.required);
         this.description = new FormControl("", Validators.required);
         this.duration = new FormControl("", Validators.required);

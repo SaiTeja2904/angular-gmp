@@ -34,11 +34,11 @@ import { SharedPipesModule } from "../core/pipes/shared-pipes/shared-pipes.modul
                         component: CoursesListComponent
                     },
                     {
-                        path: "add-course",
+                        path: "new",
                         loadChildren: "./add-course/add-course.module#AddCourseModule"
                     },
                     {
-                        path: "edit-course/:id",
+                        path: ":id",
                         loadChildren: "./edit-course/edit-course.module#EditCourseModule"
                     }
                 ]

@@ -23,9 +23,4 @@ describe("CourseComponent", () => {
     it("should create", () => {
         expect(component).toBeTruthy();
     });
-
-    it("should set the search value upon search event", () => {
-        component.courseSearched("ABC");
-        expect(component.searchValue).toBe("ABC");
-    });
 });
