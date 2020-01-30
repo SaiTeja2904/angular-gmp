@@ -2,7 +2,7 @@
     <div class="logo-container">
         <img class="logo" src="../../../assets/images/logo.svg" alt="Logo" />
     </div>
-    <div class="header-actions">
+    <div class="header-actions" *ngIf="isAuthenticated">
         <span class="user-info">
             <i class="fa fa-user-o" aria-hidden="true"></i>
             <a>{{ userName }}</a>
