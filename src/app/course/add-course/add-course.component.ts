@@ -6,7 +6,7 @@ import { CourseService } from "../course.service";
 import { AppService } from "src/app/app.service";
 import { AppState } from "src/app/store/state/app.state";
 import { Store } from "@ngrx/store";
-import { CreateCourse } from 'src/app/store/actions/courses.actions';
+import { CreateCourse } from "src/app/store/actions/courses.actions";
 
 @Component({
     selector: "app-add-course",
@@ -26,11 +26,11 @@ export class AddCourseComponent implements OnInit {
 
     ngOnInit() {
         this.appService.breadCrumbs$.next(["Courses", "Add"]);
-        this.name = new FormControl("", Validators.required);
-        this.description = new FormControl("", Validators.required);
+        this.name = new FormControl("", [Validators.required, Validators.maxLength(50)]);
+        this.description = new FormControl("", [Validators.required, Validators.maxLength(500)]);
         this.length = new FormControl("", Validators.required);
         this.date = new FormControl("", Validators.required);
-        this.authors = new FormControl("", Validators.required);
+        this.authors = new FormControl([], Validators.required);
         this.newCourseForm = new FormGroup({
             name: this.name,
             description: this.description,
@@ -44,14 +44,9 @@ export class AddCourseComponent implements OnInit {
         const formValue = this.newCourseForm.value;
         const newCourse: Course = {
             ...formValue,
-            date: new Date(),
-            authors: this.transformAuthors(formValue.authors)
+            date: new Date()
         };
         this.store.dispatch(new CreateCourse(newCourse));
-    }
-
-    private transformAuthors(authors) {
-        return authors.split(",").map(author => ({ id: Math.ceil(Math.random() * 10000), name: author }));
     }
 
     cancelCourseCreation() {

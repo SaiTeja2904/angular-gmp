@@ -1,10 +1,10 @@
-import { ActionReducerMap, MetaReducer, ActionReducer } from "@ngrx/store";
-import { userReducer } from "./users.reducer";
+import { ActionReducerMap, ActionReducer, MetaReducer } from "@ngrx/store";
 import { AppState } from "../state/app.state";
 import { coursesReducer } from './courses.reducer';
+import { userReducer } from './users.reducer';
 
-function debug(reducer: ActionReducer<any>): ActionReducer<any> {
-    return (state, action) => {
+export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
+    return function(state, action) {
         console.log("state", state);
         console.log("action", action);
         return reducer(state, action);

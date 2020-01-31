@@ -1,7 +1,7 @@
 import { initialUserState, UserState } from "src/app/store/state/user.state";
-import { UserActions, UserActionTypes } from '../actions/users.actions';
+import { UserActions, UserActionTypes } from "../actions/users.actions";
 
-export const userReducer = (state = initialUserState, action: UserActionTypes): UserState => {
+export function userReducer(state = initialUserState, action: UserActionTypes): UserState {
     switch (action.type) {
         case UserActions.LoginUserSuccess:
             return action.user;
@@ -10,4 +10,4 @@ export const userReducer = (state = initialUserState, action: UserActionTypes): 
         default:
             return state;
     }
-};
+}

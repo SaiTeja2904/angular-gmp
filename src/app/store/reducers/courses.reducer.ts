@@ -1,7 +1,7 @@
 import { initialCoursesState, CoursesState } from "../state/courses.state";
 import { CoursesActionTypes, CoursesActions } from "../actions/courses.actions";
 
-export const coursesReducer = (state = initialCoursesState, action: CoursesActionTypes): CoursesState => {
+export function coursesReducer(state = initialCoursesState, action: CoursesActionTypes): CoursesState {
     switch (action.type) {
         case CoursesActions.GetInitialCoursesSuccess:
         case CoursesActions.LoadMoreCoursesSuccess:
@@ -10,7 +10,12 @@ export const coursesReducer = (state = initialCoursesState, action: CoursesActio
                 ...state,
                 courses: action.courses
             };
+        case CoursesActions.GetAllCourseAuthorsSuccess:
+            return {
+                ...state,
+                courseAuthors: action.authors
+            };
         default:
             return state;
     }
-};
+}

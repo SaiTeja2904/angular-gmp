@@ -7,7 +7,13 @@ import { AppService } from "src/app/app.service";
 import { Observable } from "rxjs";
 import { AppState } from "src/app/store/state/app.state";
 import { Store } from "@ngrx/store";
-import { GetInitialCourses, SearchCourses, LoadMoreCourses, DeleteCourse } from "src/app/store/actions/courses.actions";
+import {
+    GetInitialCourses,
+    SearchCourses,
+    LoadMoreCourses,
+    DeleteCourse,
+    GetAllCourseAuthors
+} from "src/app/store/actions/courses.actions";
 import { coursesSelector } from "src/app/store/selectors/courses.selectors";
 
 @Component({
@@ -18,14 +24,11 @@ import { coursesSelector } from "src/app/store/selectors/courses.selectors";
 export class CoursesListComponent implements OnInit {
     public courses$: Observable<Course[]>;
 
-    constructor(
-        private router: Router,
-        private appService: AppService,
-        private store: Store<AppState>
-    ) {}
+    constructor(private router: Router, private appService: AppService, private store: Store<AppState>) {}
 
     public ngOnInit() {
         this.store.dispatch(new GetInitialCourses());
+        this.store.dispatch(new GetAllCourseAuthors());
         this.courses$ = this.store.select(coursesSelector);
         this.appService.breadCrumbs$.next(["Courses"]);
     }

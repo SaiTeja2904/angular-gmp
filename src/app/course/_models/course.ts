@@ -14,3 +14,8 @@ export interface Course {
     authors?: { id: number; name: string; lastName: string }[];
     isTopRated?: boolean;
 }
+
+export interface CourseAuthor {
+    id: number;
+    name: string;
+}

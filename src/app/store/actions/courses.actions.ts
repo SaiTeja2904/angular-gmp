@@ -1,5 +1,5 @@
 import { Action } from "@ngrx/store";
-import { Course } from "../../course/_models/course";
+import { Course, CourseAuthor } from "../../course/_models/course";
 
 export enum CoursesActions {
     GetInitialCourses = "[Courses] Get All Courses",
@@ -13,7 +13,9 @@ export enum CoursesActions {
     EditCourse = "[Courses] Edit Course",
     EditCourseSuccess = "[Courses] Edit Course Success",
     DeleteCourse = "[Courses] Delete Course",
-    DeleteCourseSuccess = "[Courses] Delete Course Success"
+    DeleteCourseSuccess = "[Courses] Delete Course Success",
+    GetAllCourseAuthors = "[Authors] Get All Course Authors",
+    GetAllCourseAuthorsSuccess = "[Authors] Get All Course Authors Success"
 }
 
 export class GetInitialCourses implements Action {
@@ -71,6 +73,15 @@ export class DeleteCourseSuccess implements Action {
     public readonly type = CoursesActions.DeleteCourseSuccess;
 }
 
+export class GetAllCourseAuthors implements Action {
+    public readonly type = CoursesActions.GetAllCourseAuthors;
+}
+
+export class GetAllCourseAuthorSuccess implements Action {
+    public readonly type = CoursesActions.GetAllCourseAuthorsSuccess;
+    constructor(public authors: CourseAuthor[]) {}
+}
+
 export type CoursesActionTypes =
     | GetInitialCourses
     | GetInitialCoursesSuccess
@@ -83,4 +94,6 @@ export type CoursesActionTypes =
     | EditCourse
     | EditCourseSuccess
     | DeleteCourse
-    | DeleteCourseSuccess;
+    | DeleteCourseSuccess
+    | GetAllCourseAuthors
+    | GetAllCourseAuthorSuccess;

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Course } from "./_models/course";
+import { Course, CourseAuthor } from "./_models/course";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { APP_URLS } from "../constants/URL_CONSTANTS";
@@ -45,5 +45,9 @@ export class CourseService {
     public loadMoreCourses(): Observable<Course[]> {
         this.coursesCount += COURSES_CHANGE_COUNT;
         return this.getCourses({ start: 0, count: this.coursesCount });
+    }
+
+    public getAllCourseAuthors(): Observable<CourseAuthor[]> {
+        return this.httpClient.get<CourseAuthor[]>(APP_URLS.ALL_COURSE_AUTHORS);
     }
 }

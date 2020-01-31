@@ -12,8 +12,10 @@ const COLORS = {
 export class HighlightDirective {
     @HostBinding("style.borderColor") borderColor: string;
     @Input() public set course(course: Course) {
-        const { date: creationDate } = course;
+        let { date: creationDate } = course;
+        creationDate = new Date(creationDate);
         const currentDate = new Date();
+        console.log(creationDate < currentDate);
         if (creationDate > currentDate) {
             this.borderColor = COLORS.BLUE_COLOR;
         } else if (creationDate < currentDate && daysdifference(creationDate, currentDate) < 15) {

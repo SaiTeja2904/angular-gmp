@@ -13,7 +13,9 @@ import {
     EditCourseSuccess,
     GetInitialCourses,
     GetInitialCoursesSuccess,
-    LoadMoreCoursesSuccess
+    LoadMoreCoursesSuccess,
+    GetAllCourseAuthors,
+    GetAllCourseAuthorSuccess
 } from "../actions/courses.actions";
 import { map, switchMap, first, tap } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -108,6 +110,17 @@ export class CoursesEffects {
     deleteCourseSuccess$ = this.actions$.pipe(
         ofType<DeleteCourseSuccess>(CoursesActions.DeleteCourseSuccess),
         map(_ => new GetInitialCourses())
+    );
+
+    @Effect()
+    getAllCourseAuthors$ = this.actions$.pipe(
+        ofType<GetAllCourseAuthors>(CoursesActions.GetAllCourseAuthors),
+        switchMap(_ =>
+            this.courseService.getAllCourseAuthors().pipe(
+                first(),
+                map(authors => new GetAllCourseAuthorSuccess(authors))
+            )
+        )
     );
 
     constructor(private actions$: Actions, private courseService: CourseService, private router: Router) {}

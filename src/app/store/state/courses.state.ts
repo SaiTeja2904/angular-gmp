@@ -1,10 +1,11 @@
-import { Course } from 'src/app/course/_models/course';
-
+import { Course, CourseAuthor } from "src/app/course/_models/course";
 
 export interface CoursesState {
-  courses: Course[];
+    courses: Course[];
+    courseAuthors: CourseAuthor[];
 }
 
 export const initialCoursesState: CoursesState = {
-  courses: []
+    courses: [],
+    courseAuthors: []
 };
