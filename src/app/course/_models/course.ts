@@ -6,7 +6,7 @@
   description - Description of the course.
 */
 export interface Course {
-    id: string;
+    id: number;
     name: string;
     date?: Date;
     length?: number;

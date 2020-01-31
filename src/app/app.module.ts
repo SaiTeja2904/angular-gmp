@@ -15,6 +15,7 @@ import { UserEffects } from "./store/effects/users.effects";
 import { appReducers, metaReducers } from "./store/reducers/app.reducers";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { CoursesEffects } from './store/effects/courses.effects';
 
 @NgModule({
     declarations: [AppComponent, PageNotFoundComponent],
@@ -24,7 +25,7 @@ import { StoreDevtoolsModule } from "@ngrx/store-devtools";
         CommonComponentsModule,
         HttpClientModule,
         StoreModule.forRoot(appReducers, { metaReducers }),
-        EffectsModule.forRoot([UserEffects]),
+        EffectsModule.forRoot([UserEffects, CoursesEffects]),
         StoreDevtoolsModule.instrument({
             maxAge: 10
         })

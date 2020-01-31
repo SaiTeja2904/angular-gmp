@@ -1,7 +1,7 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Output, EventEmitter, ChangeDetectionStrategy, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { filter, debounce } from 'rxjs/operators';
-import { timer } from 'rxjs';
+import { filter, debounce } from "rxjs/operators";
+import { timer } from "rxjs";
 
 @Component({
     selector: "app-search-course",
@@ -9,7 +9,7 @@ import { timer } from 'rxjs';
     styleUrls: ["./search-course.component.less"],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchCourseComponent {
+export class SearchCourseComponent implements OnInit {
     searchControl: FormControl;
     @Output() public courseSearched = new EventEmitter<string>();
 

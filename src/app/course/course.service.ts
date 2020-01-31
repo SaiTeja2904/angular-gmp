@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Course } from "./_models/course";
-import { BehaviorSubject, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { APP_URLS } from "../constants/URL_CONSTANTS";
 
-@Injectable()
+export const COURSES_CHANGE_COUNT = 3;
+@Injectable({ providedIn: "root" })
 export class CourseService {
-    private coursesCount = 3;
+    private coursesCount = COURSES_CHANGE_COUNT;
 
     constructor(private httpClient: HttpClient) {}
 
@@ -14,11 +15,8 @@ export class CourseService {
         return this.httpClient.post(APP_URLS.GET_COURSES, course);
     }
 
-    public getItemById(courseId: number) {
-        return this.httpClient.get(`${APP_URLS.GET_COURSES}/${courseId}`);
-    }
-
-    public updateItem(id, updatedCourse) {
+    public updateItem(updatedCourse: Course) {
+        const { id } = updatedCourse;
         return this.httpClient.patch(`${APP_URLS.GET_COURSES}/${id}`, updatedCourse);
     }
 
@@ -37,7 +35,7 @@ export class CourseService {
     }
 
     public getIntialLoadCourses(): Observable<Course[]> {
-        return this.getCourses({ start: 0, count: this.coursesCount > 3 ? 3 : this.coursesCount });
+        return this.getCourses({ start: 0, count: this.coursesCount > COURSES_CHANGE_COUNT ? COURSES_CHANGE_COUNT : this.coursesCount });
     }
 
     public searchCourse(searchQuery: string): Observable<Course[]> {
@@ -45,7 +43,7 @@ export class CourseService {
     }
 
     public loadMoreCourses(): Observable<Course[]> {
-        this.coursesCount += 3;
+        this.coursesCount += COURSES_CHANGE_COUNT;
         return this.getCourses({ start: 0, count: this.coursesCount });
     }
 }

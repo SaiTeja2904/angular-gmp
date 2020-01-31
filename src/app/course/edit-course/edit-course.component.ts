@@ -3,8 +3,11 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
 import { DatePipe } from "@angular/common";
 import { Course } from "../_models/course";
-import { CourseService } from "../course.service";
 import { AppService } from "src/app/app.service";
+import { EditCourse } from "src/app/store/actions/courses.actions";
+import { Store } from "@ngrx/store";
+import { AppState } from "src/app/store/state/app.state";
+import { courseDetailsSelector } from "src/app/store/selectors/courses.selectors";
 
 @Component({
     selector: "app-edit-course",
@@ -24,14 +27,14 @@ export class EditCourseComponent implements OnInit {
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private courseService: CourseService,
         private datePipe: DatePipe,
-        private appService: AppService
+        private appService: AppService,
+        private store: Store<AppState>
     ) {}
 
     ngOnInit() {
         this.route.params.subscribe(({ id }) => {
-            this.courseId = id;
+            this.courseId = +id;
         });
         this.name = new FormControl("", Validators.required);
         this.description = new FormControl("", Validators.required);
@@ -45,20 +48,23 @@ export class EditCourseComponent implements OnInit {
             date: this.date,
             authors: this.authors
         });
-        this.courseService.getItemById(this.courseId).subscribe((course: Course) => {
-            if (course) {
-                const { name, description, length, date, authors } = course;
-                let authorsNames = authors.map(({ name }) => `${name}`).join(", ");
-                this.appService.breadCrumbs$.next(["Courses", "Edit", name]);
-                this.courseForm.patchValue({
-                    name,
-                    description,
-                    length,
-                    date: this.datePipe.transform(date, "yyyy-MM-dd"),
-                    authors: authorsNames
-                });
-            }
-        });
+        this.store
+            .select(courseDetailsSelector(this.courseId))
+            .subscribe((course: Course) => {
+                if (course) {
+                    const { name: courseName, description, length, date, authors } = course;
+                    const authorsNames = authors.map(({ name }) => `${name}`).join(", ");
+                    this.appService.breadCrumbs$.next(["Courses", "Edit", courseName]);
+                    this.courseForm.patchValue({
+                        name: courseName,
+                        description,
+                        length,
+                        date: this.datePipe.transform(date, "yyyy-MM-dd"),
+                        authors: authorsNames
+                    });
+                }
+            })
+            .unsubscribe();
     }
 
     submitCourse() {
@@ -69,9 +75,7 @@ export class EditCourseComponent implements OnInit {
             date: new Date(Date.parse(formValue.date)),
             authors: this.transformAuthors(formValue.authors)
         };
-        this.courseService.updateItem(this.courseId, newCourse).subscribe(_ => {
-            this.router.navigate(["/courses"]);
-        });
+        this.store.dispatch(new EditCourse(newCourse));
     }
 
     private transformAuthors(authors) {

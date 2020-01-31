@@ -3,10 +3,10 @@ import { CoursesState, initialCoursesState } from './courses.state';
 
 export interface AppState {
   user: UserState;
-  // courses: CoursesState;
+  courses: CoursesState;
 }
 
 export const intialAppState: AppState = {
   user: initialUserState,
-  // courses: initialCoursesState
+  courses: initialCoursesState
 };

@@ -1,11 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 import { Course } from "../_models/course";
-import { searchInArrayOfObjects } from "src/app/shared-utils/array.utils";
 import { CourseService } from "../course.service";
 import { Router } from "@angular/router";
 import { AppService } from "src/app/app.service";
 import { Observable } from "rxjs";
+import { AppState } from "src/app/store/state/app.state";
+import { Store } from "@ngrx/store";
+import { GetInitialCourses, SearchCourses, LoadMoreCourses, DeleteCourse } from "src/app/store/actions/courses.actions";
+import { coursesSelector } from "src/app/store/selectors/courses.selectors";
 
 @Component({
     selector: "app-courses-list",
@@ -15,10 +18,15 @@ import { Observable } from "rxjs";
 export class CoursesListComponent implements OnInit {
     public courses$: Observable<Course[]>;
 
-    constructor(private courseService: CourseService, private router: Router, private appService: AppService) {}
+    constructor(
+        private router: Router,
+        private appService: AppService,
+        private store: Store<AppState>
+    ) {}
 
     public ngOnInit() {
-        this.courses$ = this.courseService.getIntialLoadCourses();
+        this.store.dispatch(new GetInitialCourses());
+        this.courses$ = this.store.select(coursesSelector);
         this.appService.breadCrumbs$.next(["Courses"]);
     }
 
@@ -33,7 +41,7 @@ export class CoursesListComponent implements OnInit {
     }
 
     onLoadMore() {
-        this.courses$ = this.courseService.loadMoreCourses();
+        this.store.dispatch(new LoadMoreCourses());
     }
 
     public coursesTrackFunction(index, item) {
@@ -45,9 +53,7 @@ export class CoursesListComponent implements OnInit {
 
     private deleteCourse(courseId) {
         if (confirm("Are you sure you want to delete?")) {
-            this.courseService.removeItem(courseId).subscribe(_ => {
-                this.courses$ = this.courseService.loadMoreCourses();
-            });
+            this.store.dispatch(new DeleteCourse(courseId));
         }
     }
 
@@ -60,6 +66,8 @@ export class CoursesListComponent implements OnInit {
     }
 
     public courseSearched(event) {
-        this.courses$ = this.courseService.searchCourse(event);
+        if (event.length > 2) {
+            this.store.dispatch(new SearchCourses(event));
+        }
     }
 }

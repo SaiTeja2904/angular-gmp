@@ -48,6 +48,6 @@ import { SharedPipesModule } from "../core/pipes/shared-pipes/shared-pipes.modul
         ReactiveFormsModule,
         SharedPipesModule
     ],
-    providers: [CourseService]
+    providers: []
 })
 export class CourseModule {}

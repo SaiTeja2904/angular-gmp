@@ -4,6 +4,9 @@ import { Router } from "@angular/router";
 import { Course } from "../_models/course";
 import { CourseService } from "../course.service";
 import { AppService } from "src/app/app.service";
+import { AppState } from "src/app/store/state/app.state";
+import { Store } from "@ngrx/store";
+import { CreateCourse } from 'src/app/store/actions/courses.actions';
 
 @Component({
     selector: "app-add-course",
@@ -19,7 +22,7 @@ export class AddCourseComponent implements OnInit {
     date: FormControl;
     authors: FormControl;
 
-    constructor(private router: Router, private courseService: CourseService, private appService: AppService) {}
+    constructor(private router: Router, private appService: AppService, private store: Store<AppState>) {}
 
     ngOnInit() {
         this.appService.breadCrumbs$.next(["Courses", "Add"]);
@@ -44,9 +47,7 @@ export class AddCourseComponent implements OnInit {
             date: new Date(),
             authors: this.transformAuthors(formValue.authors)
         };
-        this.courseService.createCourse(newCourse).subscribe(_ => {
-            this.router.navigate(["/courses"]);
-        });
+        this.store.dispatch(new CreateCourse(newCourse));
     }
 
     private transformAuthors(authors) {
