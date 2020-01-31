@@ -6,6 +6,10 @@ import {
   FormGroup,
   FormControl
 } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
+import { initialUserState } from 'src/app/store/state/user.state';
+import { initialCoursesState } from 'src/app/store/state/courses.state';
 
 describe('CourseAuthorsComponent', () => {
   let component: CourseAuthorsComponent;
@@ -26,8 +30,15 @@ describe('CourseAuthorsComponent', () => {
         {
           provide: FormGroupDirective,
           useValue: formGroupDirective
-        }
-      ]
+        },
+        provideMockStore({
+          initialState: {
+            user: initialUserState,
+            courses: initialCoursesState
+          }
+        })
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));
 

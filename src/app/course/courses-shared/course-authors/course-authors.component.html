@@ -1,1 +1,9 @@
-<input type="text" [formControl]="authors" placeholder="Start typing" />
+<div class="fields">
+  <ng-multiselect-dropdown
+    [formControl]="authors"
+    ngDefaultControl
+    [data]="authorsList$ | async"
+    [settings]="dropdownSettings"
+  >
+  </ng-multiselect-dropdown>
+</div>

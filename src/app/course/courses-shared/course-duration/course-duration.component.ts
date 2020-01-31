@@ -8,11 +8,11 @@ import { FormControl, FormGroupDirective } from "@angular/forms";
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseDurationComponent implements OnInit {
-    duration: FormControl;
+    length: FormControl;
 
     constructor(private formGroupDirective: FormGroupDirective) {}
 
     ngOnInit() {
-        this.duration = this.formGroupDirective.control.get("duration") as FormControl;
+        this.length = this.formGroupDirective.control.get("length") as FormControl;
     }
 }

@@ -7,7 +7,7 @@ import { CoursesListComponent } from "./courses-list/courses-list.component";
 import { SearchCourseComponent } from "./search-course/search-course.component";
 import { CourseItemComponent } from "./course-item/course-item.component";
 import { LoadMoreComponent } from "./load-more/load-more.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HighlightDirective } from "./course-item/highlight.directive";
 import { CourseService } from "./course.service";
 import { SharedPipesModule } from "../core/pipes/shared-pipes/shared-pipes.module";
@@ -45,8 +45,9 @@ import { SharedPipesModule } from "../core/pipes/shared-pipes/shared-pipes.modul
             }
         ]),
         FormsModule,
+        ReactiveFormsModule,
         SharedPipesModule
     ],
-    providers: [CourseService]
+    providers: []
 })
 export class CourseModule {}

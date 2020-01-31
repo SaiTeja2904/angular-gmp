@@ -1,10 +1,20 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 import { Course } from "../_models/course";
-import { searchInArrayOfObjects } from "src/app/shared-utils/array.utils";
 import { CourseService } from "../course.service";
 import { Router } from "@angular/router";
 import { AppService } from "src/app/app.service";
+import { Observable } from "rxjs";
+import { AppState } from "src/app/store/state/app.state";
+import { Store } from "@ngrx/store";
+import {
+    GetInitialCourses,
+    SearchCourses,
+    LoadMoreCourses,
+    DeleteCourse,
+    GetAllCourseAuthors
+} from "src/app/store/actions/courses.actions";
+import { coursesSelector } from "src/app/store/selectors/courses.selectors";
 
 @Component({
     selector: "app-courses-list",
@@ -12,13 +22,14 @@ import { AppService } from "src/app/app.service";
     styleUrls: ["./courses-list.component.less"]
 })
 export class CoursesListComponent implements OnInit {
-    public courses: Course[];
-    public coursesToBeDisplayed: Course[];
+    public courses$: Observable<Course[]>;
 
-    constructor(private courseService: CourseService, private router: Router, private appService: AppService) {}
+    constructor(private router: Router, private appService: AppService, private store: Store<AppState>) {}
 
     public ngOnInit() {
-        this.loadCourses();
+        this.store.dispatch(new GetInitialCourses());
+        this.store.dispatch(new GetAllCourseAuthors());
+        this.courses$ = this.store.select(coursesSelector);
         this.appService.breadCrumbs$.next(["Courses"]);
     }
 
@@ -32,6 +43,10 @@ export class CoursesListComponent implements OnInit {
         this.deleteCourse(courseId);
     }
 
+    onLoadMore() {
+        this.store.dispatch(new LoadMoreCourses());
+    }
+
     public coursesTrackFunction(index, item) {
         if (!item) {
             return null;
@@ -41,8 +56,7 @@ export class CoursesListComponent implements OnInit {
 
     private deleteCourse(courseId) {
         if (confirm("Are you sure you want to delete?")) {
-            this.courseService.removeItem(courseId);
-            this.loadCourses();
+            this.store.dispatch(new DeleteCourse(courseId));
         }
     }
 
@@ -50,16 +64,13 @@ export class CoursesListComponent implements OnInit {
         this.router.navigate([`/courses/${courseId}`]);
     }
 
-    private loadCourses() {
-        this.courses = this.courseService.getList();
-        this.coursesToBeDisplayed = this.courses;
+    public addCourse() {
+        this.router.navigate(["courses/new"]);
     }
 
     public courseSearched(event) {
-        this.coursesToBeDisplayed = searchInArrayOfObjects(event, this.courses, "title");
-    }
-
-    public addCourse() {
-        this.router.navigate(["courses/new"]);
+        if (event.length > 2) {
+            this.store.dispatch(new SearchCourses(event));
+        }
     }
 }

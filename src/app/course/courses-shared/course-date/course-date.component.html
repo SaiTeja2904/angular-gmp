@@ -1,1 +1,12 @@
-<input type="date" [formControl]="date" placeholder="mm/dd/yyyy" />
+<div class="fields">
+    <input
+        #dateInput
+        type="date"
+        [formControl]="date"
+        placeholder="mm/dd/yyyy"
+        maxlength="10"
+        [ngStyle]="{
+            'border-color': date.touched && date.errors ? 'red' : ''
+        }"
+    />
+</div>
