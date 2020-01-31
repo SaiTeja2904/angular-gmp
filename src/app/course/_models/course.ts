@@ -6,10 +6,11 @@
   description - Description of the course.
 */
 export interface Course {
-    id: string;
-    title: string;
-    creationDate: Date;
-    duration: number;
-    description: string;
-    authors: string[];
+    id: number;
+    name: string;
+    date?: Date;
+    length?: number;
+    description?: string;
+    authors?: { id: number; name: string; lastName: string }[];
+    isTopRated?: boolean;
 }

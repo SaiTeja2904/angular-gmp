@@ -1,6 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { AuthService } from "src/app/core/services/auth.service";
-import { Router } from "@angular/router";
+import { Component, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { AppState } from "src/app/store/state/app.state";
+import { userNameSelector, isUserAuthenticatedSelector } from "src/app/store/selectors/users.selectors";
+import { combineLatest } from "rxjs";
+import { LogOffUser } from "src/app/store/actions/users.actions";
 
 @Component({
     selector: "app-header",
@@ -10,19 +13,18 @@ import { Router } from "@angular/router";
 export class HeaderComponent implements OnInit {
     isAuthenticated = false;
     userName: string;
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private store: Store<AppState>) {}
 
     ngOnInit() {
-        this.authService.isAuthenticated$.subscribe(isAuthenticated => {
-            this.isAuthenticated = isAuthenticated;
-        });
-        this.authService.user$.subscribe(user => {
-            this.userName = user.name;
-        });
+        combineLatest([this.store.select(userNameSelector), this.store.select(isUserAuthenticatedSelector)]).subscribe(
+            ([userName, isAuthenticated]) => {
+                this.userName = userName && userName.first;
+                this.isAuthenticated = isAuthenticated;
+            }
+        );
     }
 
     logout() {
-        this.authService.logout();
-        this.router.navigateByUrl("");
+        this.store.dispatch(new LogOffUser());
     }
 }

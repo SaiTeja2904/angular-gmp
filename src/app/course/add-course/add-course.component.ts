@@ -4,6 +4,9 @@ import { Router } from "@angular/router";
 import { Course } from "../_models/course";
 import { CourseService } from "../course.service";
 import { AppService } from "src/app/app.service";
+import { AppState } from "src/app/store/state/app.state";
+import { Store } from "@ngrx/store";
+import { CreateCourse } from 'src/app/store/actions/courses.actions';
 
 @Component({
     selector: "app-add-course",
@@ -13,26 +16,26 @@ import { AppService } from "src/app/app.service";
 })
 export class AddCourseComponent implements OnInit {
     newCourseForm: FormGroup;
-    title: FormControl;
+    name: FormControl;
     description: FormControl;
-    duration: FormControl;
+    length: FormControl;
     date: FormControl;
     authors: FormControl;
 
-    constructor(private router: Router, private courseService: CourseService, private appService: AppService) {}
+    constructor(private router: Router, private appService: AppService, private store: Store<AppState>) {}
 
     ngOnInit() {
         this.appService.breadCrumbs$.next(["Courses", "Add"]);
-        this.title = new FormControl("", Validators.required);
+        this.name = new FormControl("", Validators.required);
         this.description = new FormControl("", Validators.required);
-        this.duration = new FormControl("", Validators.required);
+        this.length = new FormControl("", Validators.required);
         this.date = new FormControl("", Validators.required);
-        this.authors = new FormControl([], Validators.required);
+        this.authors = new FormControl("", Validators.required);
         this.newCourseForm = new FormGroup({
-            title: this.title,
+            name: this.name,
             description: this.description,
-            duration: this.duration,
-            creationDate: this.date,
+            length: this.length,
+            date: this.date,
             authors: this.authors
         });
     }
@@ -41,11 +44,14 @@ export class AddCourseComponent implements OnInit {
         const formValue = this.newCourseForm.value;
         const newCourse: Course = {
             ...formValue,
-            creationDate: new Date(formValue.creationDate),
-            authors: [formValue.authors]
+            date: new Date(),
+            authors: this.transformAuthors(formValue.authors)
         };
-        this.courseService.createCourse(newCourse);
-        this.router.navigate(["/courses"]);
+        this.store.dispatch(new CreateCourse(newCourse));
+    }
+
+    private transformAuthors(authors) {
+        return authors.split(",").map(author => ({ id: Math.ceil(Math.random() * 10000), name: author }));
     }
 
     cancelCourseCreation() {

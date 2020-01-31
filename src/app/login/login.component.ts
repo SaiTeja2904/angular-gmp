@@ -3,7 +3,9 @@ import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
 
 import { AuthService } from "../core/services/auth.service";
-import { User } from "./_models/user";
+import { User, Login_Model } from "./_models/user";
+import { Store } from "@ngrx/store";
+import { LoginUser } from '../store/actions/users.actions';
 
 @Component({
     selector: "app-login",
@@ -14,19 +16,18 @@ import { User } from "./_models/user";
 export class LoginComponent implements OnInit {
     loginForm: FormGroup;
 
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private store: Store<any>) {}
 
     ngOnInit() {
         this.authService.logout();
         this.loginForm = new FormGroup({
-            name: new FormControl("", [Validators.required]),
+            login: new FormControl("", [Validators.required]),
             password: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(10)])
         });
     }
 
     onSubmit() {
-        const userInfo: User = { ...this.loginForm.value, isAuthenticated: true };
-        this.authService.login(userInfo);
-        this.router.navigateByUrl("/courses");
+        const loginDetails: Login_Model = { ...this.loginForm.value };
+        this.store.dispatch(new LoginUser(loginDetails));
     }
 }
